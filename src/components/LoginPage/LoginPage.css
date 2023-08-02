@@ -5,10 +5,14 @@
     
 }
 .box{
-    background-image: url(./images.jpg);
+    background-image: url(./pexels-marta-branco.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    color: white;
 }
 .textfiled{
     width: 2px;
+}
+button{
+    border-radius: 20%;
 }

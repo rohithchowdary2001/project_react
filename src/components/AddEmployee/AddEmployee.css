@@ -1,6 +1,15 @@
-.edit{
-    padding: 9% 20% 8% 20%;
-    background-image: url(../components/LoginPage/images.jpg);
-    background-repeat: no-repeat;
+.hii
+{
+    padding: 4% 20% 8% 20%;
+    width: 55%;
+ 
+}
+body{
+    background-image: url(../LoginPage/pexels-marta-branco.jpg);
+    color: white;
     background-size: cover;
+    /* margin-top: -133px; */
+}
+.add{
+    margin-left: 20%;
 }

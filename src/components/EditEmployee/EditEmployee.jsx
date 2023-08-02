@@ -1,65 +1,93 @@
-import React, {useEffect, useState} from 'react'
-import { Button, Form } from 'react-bootstrap';
-import {v1 as uuid} from "uuid"; 
-import Employee from '../../Employee';
-import { Link, useNavigate } from 'react-router-dom';
-// import './AddEmployee.css';
+import React, { useEffect, useState } from 'react'
+import { Button } from 'react-bootstrap';
+// import Employee from '../../Employee';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import "./EditEmployee.css";
+import { Link } from 'react-router-dom';
 const EditEmployee = () => {
-    
-const[name,setName] = useState('');
-const[age,setAge] = useState('');
-const[id,setId] = useState('');
-const[city,setCity] = useState('');
-// const[name,setName] = useState('');
-
-useEffect(()=>{
-
-    // setName(localStorage.getItem('Name'));
-    // setAge(localStorage.getItem('Age'))
-    setId(localStorage.getItem('id'))
-})
-let history = useNavigate();
-
-var index=Employee.map(function(e)
-{
-    return e.id
-}).indexOf(id);
-
-const handleSubmit=(e)=>{
+  const { eid } = useParams();
+  const [id, idchange] = useState('');
+  const [name, setName] = useState('');
+  // const [img, setImg] = useState('');
+  const [age, setAge] = useState('');
+  const [sex, setSex] = useState('');
+  const [dob, setDob] = useState('');
+  const [city, setCity] = useState('');
+  useEffect(() => {
+    getUser();
+  }, []);
+  let history = useNavigate();
+  const getUser = async () => {
+    const res = await axios.get(`http://localhost:8081/api/v1/details/:id` + eid);
+    setName(res.data.name);
+    // setImg(res.data.img);
+    setAge(res.data.age);
+    setSex(res.data.sex);
+    setDob(res.data.dob);
+    setCity(res.data.city);
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let a = Employee[index]
-    a.Name = name;
-    a.Age = age;
-    a.City=city;
-    history('/employe')
-}
+    const empdata = { id, name, age, sex, dob, city };
+    // await axios.put(`http://localhost:8081/api/v1/details/` + eid, empdata);
+    if (empdata.name.length === 0) {
+      alert("Please Enter Your Name !!");
+    } else if (empdata.age.length === 0) {
+      alert("Age Not Be Empty!!");
+    }
+    else if (empdata.sex.length === 0) {
+      alert("Please Enter Your Gender !!");
+    }
+    else if (empdata.dob.length === 0) {
+      alert("Please Enter Your Date Of Birth !!");
+    }
+    else if (empdata.city.length === 0) {
+      alert("Please Enter Your City !!");
 
-  return (<>
-<Form>
-    <Form.Group>
-    <Form.Control type='text' placeholder='Enter the name' defaultValue="" value={name} required onChange={(e)=> setName(e.target.value)}></Form.Control>
-    <Form.Control type='text' placeholder='Enter the age' defaultValue="" value={age} required onChange={(e)=> setAge(e.target.value)}></Form.Control>
-    <Form.Control type='text' placeholder='Enter the city' defaultValue="" value={city} required onChange={(e)=> setCity(e.target.value)}></Form.Control>
-    </Form.Group>
-    <Button onClick={(e)=>handleSubmit(e)} type='submit' >Update</Button>
-</Form>
+    } else if (window.confirm("Do you want to save ?")) {
+      // Perform login logic here
+      await axios.put(`http://localhost:8081/api/v1/details/` + eid, empdata);
 
-    {/* <div className='edit'>
-      <h1>Edit Page</h1>
-      <form>
-  <div className="form-group">
-    <label for="editid">ID</label>
-    <input type="text" className="form-control" id="editid" aria-describedby="emailHelp" placeholder="Enter ID"/><br/>
-    <label for="editname">Name</label>
-    <input type="text" className="form-control" id="editname" aria-describedby="emailHelp" placeholder="Enter name"/><br/>
-    <label for="editname">Age</label>
-    <input type="text" className="form-control" id="editname" aria-describedby="emailHelp" placeholder="Enter Age"/><br/>
-  </div><br/>
-  <input className="btn btn-primary" type="submit" value="Submit"></input>
-  </form>
-    </div> */}
-    </>
+      window.location.replace("/employe");
+    }
+  }
+  return (
+    <div className='edit'>
+      <Link to={'/employe'}>
+        <button className='add'>Back</button>
+      </Link>
+      <div className='hii'>
+        <h3>Edit Employee</h3>
+        <label>Name :</label>
+        <input type='text' placeholder='Enter the name' value={name} required onChange={(e) => setName(e.target.value)}></input>
+        <br /><br />
+        {/* <label>Select image:</label>
+        <input type='file' value={name} required onChange={(e) => setImg(e.target.value)}></input>
+        <br /><br /> */}
+        <label>Age :</label>
+        <input type='number' placeholder='Enter the age' value={age} required onChange={(e) => setAge(e.target.value)}></input>
+        <br /><br />
+        <div>
+          <label>Sex :</label>
+          <input type='radio' required value="M" name="Sex" onChange={(e) => setSex(e.target.value)}></input>Male
+          <input type='radio' required value="F" name="Sex" onChange={(e) => setSex(e.target.value)}></input>Female</div>
+        <br />
+        <label>DOB :</label>
+        <input type='date' required value={dob} onChange={(e) => setDob(e.target.value)}></input>
+        <br /><br />
+        <label>Location :
+          <select name="City" onChange={(e) => setCity(e.target.value)}><option>None</option>
+            <option>Vijayawada</option>
+            <option>Chennai</option>
+            <option>Banglore</option>
+            <option>Pune</option></select>
+        </label>
+        <br />
+        <br /><br />
+        <Button onClick={(e) => handleSubmit(e)} type='submit' >Update</Button>
+      </div>
+    </div>
   )
 }
-
 export default EditEmployee;

@@ -5,11 +5,54 @@ table {
   }
   
   td, th {
-    border: 1px solid #dddddd;
+    border: 0px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding: 5px;
   }
   
   tr:nth-child(even) {
     background-color: #dddddd;
   }
+  .emp
+  {
+    margin: 50px 50px 10px 200px;
+    background-color:white;
+    width: 70%;
+    border: 2px solid black;
+    color: black;  }
+  .add
+  {
+    margin: 0px 0px -200px 950px;
+    background-color:white;
+    border: 2px solid black;
+    border-radius: 20%;
+    
+  }
+  .logout{
+    margin-left: 79%;
+    border-radius: 20%;
+    border: 2px solid black;
+  }
+  .delete
+  {
+    margin-top: 5px;
+  }
+  /* .pill-nav a {
+    display: inline-block;
+    color: black;
+    text-align: center;
+    padding: 14px;
+    text-decoration: none;
+    font-size: 17px;
+    border-radius: 5px;
+  }
+  
+  .pill-nav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .pill-nav a.active {
+    background-color: dodgerblue;
+    color: white;
+  } */
