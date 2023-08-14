@@ -6,6 +6,7 @@ import LoginPage from './components/LoginPage/LoginPage';
 import AddEmployee from './components/AddEmployee/AddEmployee';
 import EditEmployee from './components/EditEmployee/EditEmployee';
 import Register from './components/LoginPage/Register';
+import FileUpload from './components/Imagedisplay/Imageupload';
 function App() {
   return (
     <Router>
@@ -17,6 +18,7 @@ function App() {
     <Route exact path="/editEmployee/:eid" element={<EditEmployee />} />
     </Routes>
   </Router>
+  // <FileUpload/>
   );
 }
 export default App;

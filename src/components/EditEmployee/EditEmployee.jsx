@@ -5,8 +5,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import "./EditEmployee.css";
 import { Link } from 'react-router-dom';
+
 const EditEmployee = () => {
   const { eid } = useParams();
+  console.log("eid:", eid);
+
   const [id, idchange] = useState('');
   const [name, setName] = useState('');
   // const [img, setImg] = useState('');
@@ -14,19 +17,28 @@ const EditEmployee = () => {
   const [sex, setSex] = useState('');
   const [dob, setDob] = useState('');
   const [city, setCity] = useState('');
+
   useEffect(() => {
     getUser();
   }, []);
-  let history = useNavigate();
+
   const getUser = async () => {
-    const res = await axios.get(`http://localhost:8081/api/v1/details/:id` + eid);
-    setName(res.data.name);
-    // setImg(res.data.img);
-    setAge(res.data.age);
-    setSex(res.data.sex);
-    setDob(res.data.dob);
-    setCity(res.data.city);
+    try {
+      const res = await axios.get(`http://localhost:8081/api/v1/employees/${eid}`);
+      console.log(res.data); // Log the response to the console
+      const employeeData = res.data[0];
+      setName(employeeData.name);
+      setAge(employeeData.age);
+      setSex(employeeData.sex);
+      setDob(employeeData.dob);
+      setCity(employeeData.city);
+    } catch (error) {
+      console.error(error); // Log any errors to the console
+    }
   };
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const empdata = { id, name, age, sex, dob, city };
@@ -52,6 +64,7 @@ const EditEmployee = () => {
       window.location.replace("/employe");
     }
   }
+
   return (
     <div className='edit'>
       <Link to={'/employe'}>
@@ -60,7 +73,7 @@ const EditEmployee = () => {
       <div className='hii'>
         <h3>Edit Employee</h3>
         <label>Name :</label>
-        <input type='text' placeholder='Enter the name' value={name} required onChange={(e) => setName(e.target.value)}></input>
+        <input type='text' placeholder='Enter the name' defaultValue={name} required onChange={(e) => setName(e.target.value)}></input>
         <br /><br />
         {/* <label>Select image:</label>
         <input type='file' value={name} required onChange={(e) => setImg(e.target.value)}></input>
@@ -69,15 +82,15 @@ const EditEmployee = () => {
         <input type='number' placeholder='Enter the age' value={age} required onChange={(e) => setAge(e.target.value)}></input>
         <br /><br />
         <div>
-          <label>Sex :</label>
-          <input type='radio' required value="M" name="Sex" onChange={(e) => setSex(e.target.value)}></input>Male
-          <input type='radio' required value="F" name="Sex" onChange={(e) => setSex(e.target.value)}></input>Female</div>
+          <label >Sex :</label>
+          <input type='radio' required value={sex || ""} name="Sex" onChange={(e) => setSex(e.target.value)}></input>Male
+          <input type='radio'  required value={sex || ""} name="Sex" onChange={(e) => setSex(e.target.value)}></input>Female</div>
         <br />
         <label>DOB :</label>
         <input type='date' required value={dob} onChange={(e) => setDob(e.target.value)}></input>
         <br /><br />
         <label>Location :
-          <select name="City" onChange={(e) => setCity(e.target.value)}><option>None</option>
+          <select name="City" value={city} onChange={(e) => setCity(e.target.value)}><option>None</option>
             <option>Vijayawada</option>
             <option>Chennai</option>
             <option>Banglore</option>
@@ -91,3 +104,4 @@ const EditEmployee = () => {
   )
 }
 export default EditEmployee;
+

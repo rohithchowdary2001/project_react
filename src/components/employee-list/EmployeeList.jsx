@@ -56,8 +56,8 @@ function EmployeeList() {
         <tr>
           <th>ID</th>
           <th>NAME</th>
-          <th>IMG</th>
-          {/* <th>AGE</th> */}
+          {/* <th>IMG</th> */}
+          <th>AGE</th>
           <th>SEX</th>
           <th>DOB</th>
           <th>Location</th>
